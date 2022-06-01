@@ -1,0 +1,17 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sympy import symbols,cos,lambdify,pprint,Function,Eq,exp,sin,dsolve
+plt.close('all')
+x,y,C1,C2=symbols('x y C1 C2')
+u = Function('u')
+eq = Eq(u(x).diff(x,x)+u(x),2*cos(3*x)-3*sin(7*x))
+pprint(eq)
+rez=dsolve(eq, u(x))
+print("Загальний розв'язок u(x)=",rez.rhs)
+y=rez.rhs.subs([(C1,1),(C2,-1)])
+print("Окремий розв'язок y(x)=",y)
+F=lambdify(x, y, "numpy")
+X=np.linspace(-3,2,61)
+Y=F(X)
+plt.plot(X,Y,'k',linewidth=3)
+plt.grid(True)
